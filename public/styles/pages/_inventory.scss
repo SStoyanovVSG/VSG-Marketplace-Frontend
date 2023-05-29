@@ -1,0 +1,291 @@
+
+//////////////MAIN/////////////
+.container {
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: row;
+}
+.main {
+  background-color: $white-color;
+  border-radius: 20px;
+  margin-top: 2em;
+}
+.table-wrapper {
+  flex-wrap: wrap;
+  display: flex;
+  flex-direction: row;
+  height: auto;
+  border-radius: 20px;
+  padding: 20px;
+  .noProductsDiv{
+    display: flex;
+   font-size: 18px;
+   font-family: 'Roboto';
+   margin: 10px
+  }
+  .tableContainer{
+    border: 1px solid #B3B3B3;
+    border-radius: 4px;
+    .tableHead{
+      border-bottom: 1px solid #B3B3B3;
+    }
+  }
+}
+///////SEARCH////////////
+#search-container {
+  margin: 20px 0px 40px 0px;
+  display: flex;
+    justify-content: flex-end;
+    align-items: end;
+    width: 90vw;
+  #searchIcon {
+    margin-right: 5px;
+  }
+  #searchIconAnchor{
+    align-self: end;
+    margin-right: 4px;
+  }
+  input {
+    height: 80%;
+    margin-right: 10px;
+    outline: none;
+    border: 0;
+  }
+  .input-div {
+    display: flex;
+  }
+  .locationFilter{
+    display: flex;
+    
+  }
+  .locationIcon{
+    margin-left: 24px;
+    margin-right: 6px;
+    align-self: flex-end;
+  }
+}
+
+#addNewItemBtn {
+  @include flex-center;
+  @include roboto-font;
+  background: $green-button-color;
+  border-color: $green-button-color;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.25);
+  border-radius: 4px;
+  color: $white-color;
+  font-size: 14px;
+  line-height: 24px;
+  padding: 6px 10px;
+  cursor: pointer;
+  svg {
+    margin-right: 10px;
+  }
+}
+
+.deleteIcon {
+  margin-left: 8px;
+}
+
+.edit-icon,
+.deleteIcon {
+  cursor: pointer;
+}
+//////ADD NEW ITEM MODAL/////////
+.add-item-modal,
+.edit-item-modal {
+  position: fixed;
+  z-index: 999;
+}
+
+.add-item-form,
+.edit-item-form {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  flex-direction: column;
+  top: 50%;
+  left: 50%;
+  height: 60vh;
+  width: 46vw;
+  transform: translate(-50%, -50%);
+  background-color: $white-color;
+  border-radius: 20px;
+  overflow: hidden;
+  padding: 40px 0px 40px 0px;
+  .row {
+    max-height: 100%;
+    @include flex-center;
+    margin: 20px;
+  }
+  .left-side {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 40%;
+    #item-description {
+      resize: none;
+    }
+    select:required:invalid {
+      color: gray;
+    }
+    option[value=""][disabled] {
+      display: none;
+    }
+  }
+  span {
+    justify-content: flex-start;
+    @include inter-font;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 29px;
+
+    color: $black-color;
+  }
+  .imgSection {
+
+    @include flex-center;
+    flex-direction: column;
+    margin: 120px 0 0 10px;
+    width: 55%;
+    img {
+      max-height: 200px;
+    }
+  }
+  .inputField {
+    font-size: 12px;
+    .MuiInputBase-root::after {
+      border-bottom: #000;
+    }
+   
+  }
+  
+  #submitFormBtn {
+    @include flex-center;
+    font-size: 18px;
+    line-height: 22px;
+    font-weight: 500;
+    width: 150px;
+    height: 36px;
+    color: $white-color;
+    align-self: center;
+    background: $green-button-color;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.25);
+    border: 0;
+    border-radius: 4px;
+    padding: 8px 30px 8px 30px;
+    margin: 10px 0 20px 0;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  .img-buttons {
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+    border-radius: 4px;
+    width: 130px;
+    .upload-button,
+    #edit-remove-button,
+    #remove-button {
+      background: $upload-button-color;
+      @include flex-center;
+      font-size: 1em;
+      line-height: 24px;
+      font-weight: 500;
+      color: $white-color;
+      padding: 8px 18px;
+      margin: 10px;
+      font-family: "Roboto";
+      border: 0;
+      font-weight: 500;
+      border-radius: 4px;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+    #edit-remove-button,
+    #remove-button {
+
+      background: $main-color;
+    }
+  }
+}
+
+.close-modal-button {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  padding: 5px 10px;
+  background-color: transparent;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+////////////RESPONSIVE////////
+
+@media screen and (max-width: 768px) {
+  .main {
+    height: 88vh;
+    width: 90vw;
+    justify-content: center;
+    align-items: start;
+    display: flex;
+  }
+  #inventoryMain {
+    display: block;
+   
+  }
+   #search-container {
+      justify-content: flex-start;
+      align-items: flex-start;
+      flex-direction: column-reverse;
+      .input-div {
+        width: 40%;
+        margin: 12px;
+      }
+      .locationIcon{
+        margin-left: 0;
+      }
+      .locationFilter{
+        margin: 12px;
+      }
+       #addNewItemBtn{
+        margin: 18px;
+      }
+     
+    
+    }
+  .table-wrapper {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: nowrap;
+    flex-direction: column;
+  }
+  .add-item-form .img-buttons {
+    width: auto;
+  }
+  .add-item-form,
+  .edit-item-form {
+    height: 85vh;
+    width: 80vw;
+    .row {
+      max-height: 100%;
+      @include flex-center;
+      flex-direction: column;
+      margin: 20px;
+    }
+    .left-side {
+      position: relative;
+      width: 95%;
+    }
+    .imgSection {
+      margin-top: 10px;
+      width: 100%;
+      .img-buttons {
+        flex-direction: row;
+      }
+    }
+  }
+}
