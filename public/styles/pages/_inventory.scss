@@ -54,6 +54,9 @@
   }
   .input-div {
     display: flex;
+    #search{
+      width: 140px;
+    }
   }
   .locationFilter{
     display: flex;
@@ -113,6 +116,7 @@
   background-color: $white-color;
   border-radius: 20px;
   overflow: hidden;
+  overflow-y: auto;
   padding: 40px 0px 40px 0px;
   .row {
     max-height: 100%;
@@ -140,7 +144,6 @@
     font-weight: 700;
     font-size: 24px;
     line-height: 29px;
-
     color: $black-color;
   }
   .imgSection {
@@ -156,10 +159,16 @@
   .inputField {
     font-size: 12px;
     .MuiInputBase-root::after {
-      border-bottom: #000;
+      border-bottom: #B3B3B3;
       width: 140px
     }
-   
+    .MuiInputBase-root::before {
+      border-bottom: 1px solid #B3B3B3;
+    }
+     label{
+      color: #B3B3B3
+
+    }
   }
   
   #submitFormBtn {
@@ -180,6 +189,10 @@
     &:hover {
       cursor: pointer;
     }
+  }
+  .spinning-loader{
+    align-self: center;
+    color: $main-color;
   }
 
   .img-buttons {
@@ -224,6 +237,9 @@
   border: none;
   border-radius: 5px;
   cursor: pointer;
+}
+body .css-zw3mfo-MuiModal-root-MuiDialog-root {
+  z-index: 0;
 }
 
 ////////////RESPONSIVE////////
