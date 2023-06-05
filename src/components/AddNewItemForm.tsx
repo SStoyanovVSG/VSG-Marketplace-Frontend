@@ -48,6 +48,7 @@ const AddNewItemForm = ({ onClose, setProducts }: AddNewItemlProps): JSX.Element
       categoryId: '',
       locationId: '',
       saleQty: null,
+      lendQty: null,
       price: null,
       combinedQty: null,
       image: "",
@@ -60,6 +61,8 @@ const AddNewItemForm = ({ onClose, setProducts }: AddNewItemlProps): JSX.Element
   const onSubmit = async (data: IFormInputs): Promise<void> => {
     const response = await createProduct(data) as {data: IReturnedValue};
     const selectedCategory = categories?.filter((c: ICategory)=> c.id == Number(data.categoryId))[0] as ICategory
+    const selectedLocation = locations?.filter((l: ILocation)=> l.id == Number(data.locationId))[0] as ILocation
+
     const responseData = response.data
     const id = responseData.returnedValue as number;
     
@@ -68,7 +71,7 @@ const AddNewItemForm = ({ onClose, setProducts }: AddNewItemlProps): JSX.Element
       const imageFormData = new FormData();
       imageFormData.append("image", image);
       const imageUrl = await postImage({ id, imageFormData }) as {data: IReturnedValue}; 
-      const newProduct = {...data,id, image: imageUrl.data.returnedValue , category: selectedCategory.name} as IInventoryItem
+      const newProduct = {...data,id, image: imageUrl.data.returnedValue , category: selectedCategory.name, location: selectedLocation.name } as IInventoryItem
       setProducts((oldProducts) => [...oldProducts, newProduct])
     }
     else{
@@ -218,7 +221,6 @@ const AddNewItemForm = ({ onClose, setProducts }: AddNewItemlProps): JSX.Element
               <TextField
                 className="inputField"
                 type="number"
-                id="item-name"
                 variant="standard"
                 label="Qty For Sale"
                 InputLabelProps={{ style: { color: "#9A9A9A" } }}
@@ -227,7 +229,22 @@ const AddNewItemForm = ({ onClose, setProducts }: AddNewItemlProps): JSX.Element
                 {...register("saleQty" , {
                   min: {
                     value: 0,
-                    message: "Qty for sale must be a possitive number",
+                    message: "Qty for sale must be a positive number",
+                  }
+                  })}
+              />
+               <TextField
+                className="inputField"
+                type="number"
+                variant="standard"
+                label="Qty For Lend"
+                InputLabelProps={{ style: { color: "#9A9A9A" } }}
+                error={Boolean(errors.lendQty)}
+                helperText={errors.lendQty?.message}
+                {...register("lendQty" , {
+                  min: {
+                    value: 0,
+                    message: "Qty for lend must be a positive number",
                   }
                   })}
               />
@@ -243,7 +260,7 @@ const AddNewItemForm = ({ onClose, setProducts }: AddNewItemlProps): JSX.Element
                 {...register("price", {
                   min: {
                     value: 0,
-                    message: "Price must be a possitive number",
+                    message: "Price must be a positive number",
                   },
                 })}
               />
@@ -258,7 +275,7 @@ const AddNewItemForm = ({ onClose, setProducts }: AddNewItemlProps): JSX.Element
                 helperText={errors.combinedQty?.message}
                 {...register("combinedQty", {
                   required: "Qty field is required",
-                  min: { value: 1, message: "Qty must be a possitive number" },
+                  min: { value: 1, message: "Qty must be a positive number" },
                   validate: (value) =>
                     (value as unknown as number) >=
                       Number(getValues("saleQty")) ||

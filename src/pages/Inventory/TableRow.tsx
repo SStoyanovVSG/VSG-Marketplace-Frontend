@@ -1,41 +1,35 @@
-import styled from "@emotion/styled";
 
 import { useDeleteProductMutation } from "../../services/productService";
 import EditItemForm from "../../components/EditItemForm";
 import { useState } from "react";
 import { IInventoryItem } from "../../types";
-import { TableCell, TableRow, tableCellClasses } from "@mui/material";
 import DeleteIcon from "./DeleteIcon";
 import { toast } from "react-toastify";
+import AddHomeWorkOutlinedIcon from '@mui/icons-material/AddHomeWorkOutlined';
+import LendForHomeForm from "../../components/LendForHomeForm";
 
 type InventoryItemsProps = {
   product: IInventoryItem;
-  products: IInventoryItem[];
   setProducts: React.Dispatch<React.SetStateAction<IInventoryItem[]>>
 };
 
-const StyledTableCell = styled(TableCell)(() => ({
-  [`&.${tableCellClasses.head}`]: {
-    fontWeight: 600,
-    border: 1,
-    fontSize: 17,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontWeight: 500,
-    fontSize: 16,
-  },
-}));
 
 const TableRowComponent = ({
   product,
   setProducts,
 }: InventoryItemsProps): JSX.Element => {
   const [isEditItemFormOpen, setIsEditItemFormOpen] = useState(false);
+  const [isLendForHomeForm, setIsLendForHomeForm] = useState(false);
+
   const [deleteProduct] = useDeleteProductMutation();
   const str = `Are you sure you want to delete this item?`;
 
   const handleEditItemBtn = () => {
     setIsEditItemFormOpen(true);
+  };
+
+  const handleLendForHomeIcon = () => {
+    setIsLendForHomeForm(true);
   };
 
   const onDelete = async () => {
@@ -57,16 +51,12 @@ const TableRowComponent = ({
           setProducts={setProducts}
         />
       )}
-
-      <TableRow key={product.id}>
-        <StyledTableCell component="th" scope="row">
-          {product.code}
-        </StyledTableCell>
-        <StyledTableCell>{product.name}</StyledTableCell>
-        <StyledTableCell>{product.category}</StyledTableCell>
-        <StyledTableCell>{product.saleQty}</StyledTableCell>
-        <StyledTableCell>{product.combinedQty}</StyledTableCell>
-        <StyledTableCell>
+       {isLendForHomeForm && (
+        <LendForHomeForm
+        onClose={()=> setIsLendForHomeForm(false)}
+        product={product}
+        />
+      )}
           <a className="edit-icon" onClick={handleEditItemBtn}>
             <svg
               width="16"
@@ -81,10 +71,12 @@ const TableRowComponent = ({
               />
             </svg>
           </a>
+          <a onClick={handleLendForHomeIcon} className="lendHomeIcon">
+          <AddHomeWorkOutlinedIcon sx={{color: '#ed1c25', fontSize: '18px'}}/>
+          </a>
 
           <DeleteIcon str={str} onYes={onDelete} />
-        </StyledTableCell>
-      </TableRow>
+       
     </>
   );
 };

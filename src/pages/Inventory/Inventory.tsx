@@ -5,7 +5,6 @@ import SearchBar from "./SearchBar";
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
 import { useGetLocationsQuery } from "../../services/locationService";
 import { IInventoryItem, ILocation } from "../../types";
-import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 
 function Inventory(): JSX.Element {
   const [isAddNewItemFormOpen, setIsAddNewItemFormOpen] = useState(false);
@@ -31,12 +30,14 @@ function Inventory(): JSX.Element {
 
   return (
     <main className="main">
+      
       {isAddNewItemFormOpen && (
         <AddNewItemForm setProducts={setProducts} onClose={() => setIsAddNewItemFormOpen(false)} />
       )}
+      
       <div className="table-wrapper">
         <SearchBar onSearchInputChange={handleSearchInputChange} searchQuery={searchQuery} >
-          <div className="locationFilter">
+          {/* <div className="locationFilter">
           <LocationOnOutlinedIcon className="locationIcon"/>
           <FormControl className="inputField" variant="standard" sx={{ mr: 3, width: 140,}}>
             <InputLabel focused={false} >
@@ -57,9 +58,7 @@ function Inventory(): JSX.Element {
               ))}
             </Select>
           </FormControl>
-          </div>
-        
-
+          </div> */}
           <button
             id="addNewItemBtn"
             type="button"
@@ -79,8 +78,7 @@ function Inventory(): JSX.Element {
           </button>
         </SearchBar>
         <CustomizedTables
-          searchQuery={searchQuery}
-          locationValue={locationValue}
+         searchQuery={searchQuery}
           products= {products}
           setProducts = {setProducts}
         />

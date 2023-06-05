@@ -70,6 +70,7 @@ const EditItemForm = ({
       description: product.description,
       categoryId: product.categoryId,
       locationId: product.locationId,
+      lendQty: product.lendQty || null,
       saleQty: product.saleQty || null,
       price: product.price || null,
       combinedQty: product.combinedQty,
@@ -79,7 +80,6 @@ const EditItemForm = ({
 
   const handleRemoveImage = () => {
     setImageValue("../../images/no_image-placeholder.png");
-    setAnchorEl(null)
   };
 
   if (!open) {
@@ -104,6 +104,8 @@ const EditItemForm = ({
   const onSubmit = async (data: IFormInputs): Promise<void> => {
     data.price = data.price || null;
     data.saleQty = data.saleQty || null;
+    data.lendQty = data.lendQty || null;
+
 
     const id = product.id;
     const response = await updateProduct({ id, data });
@@ -121,6 +123,7 @@ const EditItemForm = ({
       location: selectedLocation.name,
       id,
     } as IInventoryItem;
+console.log(newData);
 
     if (
       imageValue == "../../images/no_image-placeholder.png" &&
@@ -289,6 +292,22 @@ const EditItemForm = ({
                   defaultValue={product.saleQty}
                   {...register("saleQty")}
                 />
+                 <TextField
+                className="inputField"
+                type="number"
+                variant="standard"
+                label="Qty For Lend"
+                InputLabelProps={{ style: { color: "#9A9A9A" } }}
+                defaultValue={product.lendQty}
+                error={Boolean(errors.lendQty)}
+                helperText={errors.lendQty?.message}
+                {...register("lendQty" , {
+                  min: {
+                    value: 0,
+                    message: "Qty for lend must be a positive number",
+                  }
+                  })}
+              />
                 <TextField
                   className="inputField"
                   type="number"
@@ -337,7 +356,7 @@ const EditItemForm = ({
                     Upload
                   </label>
                   <button
-                    onClick={handlePopup}
+                    onClick={handleRemoveImage}
                     id="remove-button"
                     type="button"
                   >
@@ -356,12 +375,12 @@ const EditItemForm = ({
           </form>
         </div>
       </ModalWrapper>
-      <PopperComponent
+      {/* <PopperComponent
         str={string}
         onYes={handleRemoveImage}
         anchor={anchorEl}
         setAnchor={setAnchorEl}
-      />
+      /> */}
     </>
   );
 };
