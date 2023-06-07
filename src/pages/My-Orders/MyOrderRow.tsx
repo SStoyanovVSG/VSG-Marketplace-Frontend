@@ -11,8 +11,7 @@ type MyOrderProps = {
 function MyOrder({ myOrder }: MyOrderProps) {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const [rejectOrder] = useRejectOrderMutation();
-  const [currentStatus, setCurrentStatus] = useState(myOrder.status)
-  
+  const [currentStatus, setCurrentStatus] = useState(myOrder.status);
 
   const handlePopup = (e: React.MouseEvent<HTMLAnchorElement>) => {
     setAnchorEl(e.currentTarget);
@@ -20,12 +19,11 @@ function MyOrder({ myOrder }: MyOrderProps) {
 
   const onReject = async () => {
     const response = await rejectOrder(myOrder.id);
-    if (!('error' in response)) {
-      setCurrentStatus('Declined')
+    if (!("error" in response)) {
+      setCurrentStatus("Declined");
       toast.success("Successfully rejected order");
-    } 
+    }
     setAnchorEl(null);
-
   };
 
   const str = `Are you sure you want to reject this order?`;
@@ -36,8 +34,8 @@ function MyOrder({ myOrder }: MyOrderProps) {
       <span className="ProductPriceColumn">{myOrder.price} BGN</span>
       <span className="ProductDateColumn">{myOrder.date}</span>
       <span className="status">{currentStatus}</span>
+      <a className="deleteIcon" onClick={handlePopup}>
       {currentStatus == "Pending" && (
-        <a className="deleteIcon" onClick={handlePopup}>
           <svg
             width={12}
             height={12}
@@ -50,8 +48,8 @@ function MyOrder({ myOrder }: MyOrderProps) {
               fill="#ED1C25"
             />
           </svg>
-        </a>
       )}
+      </a>
 
       <PopperComponent
         str={str}
