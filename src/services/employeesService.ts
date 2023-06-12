@@ -1,8 +1,8 @@
-import { baseApi } from "../utils/baseEmployeesApi";
+import { baseEmployeesApi } from "../utils/baseEmployeesApi";
 
 const GetEmployees = "getEmployees";
 
-const employeesService = baseApi.injectEndpoints({
+const employeesService = baseEmployeesApi.injectEndpoints({
   endpoints: (builder) => ({
     [GetEmployees]: builder.query({
       query: () => "",

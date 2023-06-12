@@ -29,7 +29,7 @@ const LendForHomeForm = ({
   setIsLendForHomeForm,
 }: LendForHomeFormProps) => {
   const [lendItem] = usePostLentItemMutation();
-  const { data } = useGetEmployeesQuery("");
+  const { data } = useGetEmployeesQuery();
   console.log(data);
   
 

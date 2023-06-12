@@ -2,9 +2,9 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 
 
-export const baseURL = "api/get_all_employees_data_from_bob";
+export const baseURL = "https://sm-server.netlify.app/api";
 
-export const baseApi = createApi({
+export const baseEmployeesApi = createApi({
   reducerPath: "baseApi",
   baseQuery: fetchBaseQuery({
     baseUrl: baseURL,
@@ -14,15 +14,19 @@ export const baseApi = createApi({
     },
   }),
   endpoints: (builder) => ({
-    getEmployees: builder.query({
-      query: () => "api/get_all_employees_data_from_bob", // Specify the actual query string or path to fetch employees' data
+    getEmployees: builder.query<any,void>({
+        
+      query: () => "/get_all_employees_data_from_bob", // Specify the actual query string or path to fetch employees' data
+      transformResponse: (response: any)=>{
+        return response.employees
+      }
     }),
   }),
   keepUnusedDataFor: 0,
   refetchOnMountOrArgChange: true,
 });
 
-export const { useGetEmployeesQuery } = baseApi;
+export const { useGetEmployeesQuery } = baseEmployeesApi;
 
 
 // export const baseURL =
