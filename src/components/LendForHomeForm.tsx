@@ -13,7 +13,7 @@ import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { IInventoryItem, ILendItemsFormInputs } from "types";
 import { usePostLentItemMutation } from "../services/lentItemsService";
-import { useGetEmployeesQuery } from "../services/employeesService";
+import { useGetEmployeesQuery } from "../utils/baseEmployeesApi";
 
 interface LendForHomeFormProps {
   product: IInventoryItem;
@@ -29,7 +29,7 @@ const LendForHomeForm = ({
   setIsLendForHomeForm,
 }: LendForHomeFormProps) => {
   const [lendItem] = usePostLentItemMutation();
-  const { data } = useGetEmployeesQuery('');
+  const { data } = useGetEmployeesQuery();
   console.log(data);
   
 
