@@ -111,6 +111,7 @@ const LendForHomeForm = ({
                   id="combo-box-demo"
                   options={options}
                   onChange={(e, item)=>{
+                    console.log(e);
                     onChange(item)
                   }} 
                   renderInput={(params) => <TextField variant="standard" value={value}  {...params} label="Email" />}
