@@ -14,6 +14,7 @@ import { toast } from "react-toastify";
 import { IInventoryItem, ILendItemsFormInputs } from "types";
 import { usePostLentItemMutation } from "../services/lentItemsService";
 import { useGetEmployeesQuery } from "../utils/baseEmployeesApi";
+import { useState, useEffect } from "react";
 
 interface LendForHomeFormProps {
   product: IInventoryItem;
@@ -29,17 +30,28 @@ const LendForHomeForm = ({
   setIsLendForHomeForm,
 }: LendForHomeFormProps) => {
   const [lendItem] = usePostLentItemMutation();
-  const { data } = useGetEmployeesQuery();
-  console.log(data);
-  
+  const [users, setUsers] = useState<{ label: string; value: string }[]>([]);
+  const { data: employees } = useGetEmployeesQuery();
 
-  const options = [
-    { label: 'SStoyanov@vsgbg.com', value: 'SStoyanov@vsgbg.com' },
-    { label: 'goshso@vsgbg.com', value: 'goshso@vsgbg.com' },
-  ];
+  useEffect(() => {
+    if (employees) {
+      setUsers(
+        employees.map((e) => ({
+          label: e.name,
+          value: e.email,
+        }))
+      );
+    }
+  }, [employees]);
 
   const onSubmit = async (data: ILendItemsFormInputs): Promise<void> => {
-    const newData = { qty: data.qty, lentBy: data.lentBy.value , productId: product.id };
+    console.log(data);
+    
+    const newData = {
+      qty: data.qty,
+      lentBy: (data.lentBy as unknown as {label: string, value: string}).value,
+      productId: product.id,
+    };
 
     const response = await lendItem(newData);
 
@@ -56,8 +68,8 @@ const LendForHomeForm = ({
         )
       );
       toast.success("Successfully lent item!");
+      setIsLendForHomeForm(false);
     }
-    setIsLendForHomeForm(false);
   };
 
   const {
@@ -66,7 +78,7 @@ const LendForHomeForm = ({
     control,
   } = useForm<ILendItemsFormInputs>({
     defaultValues: {
-      lentBy: {},
+      lentBy: "",
       qty: null,
     },
   });
@@ -110,41 +122,25 @@ const LendForHomeForm = ({
                   },
                 }}
                 render={({ field: { onChange, value } }) => (
-              
                   <Autocomplete
-                  disablePortal
-                  id="combo-box-demo"
-                  options={options}
-                  onChange={(e, item)=>{
-                    console.log(e);
-                    onChange(item)
-                  }} 
-                  renderInput={(params) => <TextField variant="standard" value={value}  {...params} label="Email" />}
-                />
-
-                  // <FormControl
-                  //   variant="standard"
-                  //   className="lendItemField"
-                  //   error={Boolean(errors.lentBy)}
-                  // >
-                  //   <InputLabel focused={false}>Lent By</InputLabel>
-                  //   <Select value={value} onChange={onChange}>
-                  //     <MenuItem value={"SStoyanov@vsgbg.com"} key={1}>
-                  //       SStoyanov@vsgbg.com
-                  //     </MenuItem>
-                  //     {/* <MenuItem value={'SStoyanov@vsgbg.com'} key={1}>
-                  //        Gosho@vsgbg.com
-                  //    </MenuItem> */}
-                  //     {/* {categories?.map((c: ICategory) => (
-                  //     <MenuItem value={c.id} key={c.id}>
-                  //       {c.name}
-                  //     </MenuItem>
-                  //   ))} */}
-                  //   </Select>
-                  //   <FormHelperText>
-                  //     {errors.lentBy && errors.lentBy.message}
-                  //   </FormHelperText>
-                  // </FormControl>
+                    disablePortal
+                    id="combo-box-demo"
+                    options={users}
+                    onChange={(e, item) => {
+                      console.log(e);
+                      onChange(item);
+                    }}
+                    renderInput={(params) => (
+                      <TextField
+                        error={Boolean(errors.lentBy)}
+                        helperText={errors.lentBy?.message}
+                        variant="standard"
+                        value={value}
+                        {...params}
+                        label="User"
+                      />
+                    )}
+                  />
                 )}
               />
               <Controller
