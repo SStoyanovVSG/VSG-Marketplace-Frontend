@@ -1,13 +1,13 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Layout from "./components/Layout";
 import { Suspense, lazy } from "react";
-import ProtectedRoute from "./ProtectedRoute";
-import AdminRoute from "./AdminRoute";
 import { CircularProgress } from "@mui/material";
 import LentItems from "./pages/Lent-Items/LentItems";
 import MyItems from "./pages/My-Items/MyItems";
 import NotFound from "./pages/Not-Found/NotFound";
 import NotAuthorized from "./pages/Not-Authorized/NotAuthorized";
+import AdminRoute from "./AdminRoute";
+import ProtectedRoute from "./ProtectedRoute";
 
 const Home = lazy(() => import("./pages/Home/Home"));
 const MarketPlace = lazy(() => import("./pages/Marketplace/Marketplace"));
